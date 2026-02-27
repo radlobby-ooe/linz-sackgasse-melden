@@ -100,7 +100,7 @@
     document.getElementById('describeM').onclick = function () {
         if (pickerApi.picker.isSet()) {
             let pos = pickerApi.picker.getLocation();
-            window.open('mailto:linz@radlobby.at?subject=Sackgassenschild melden bei (Bitte Straße bzw. Kreuzung angeben)&body=(Bitte Problem beschreiben) GPS-Position ' + pos);
+            window.open('mailto:linz@radlobby.at?subject=Sackgassenschild melden bei... (bitte Straße bzw. Kreuzung angeben)&body=(Bitte Problem beschreiben) GPS-Position ' + pos);
         }
     };
     document.addEventListener('pickerSet', event => {
