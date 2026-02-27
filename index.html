@@ -14,21 +14,6 @@
             box-sizing: border-box;
         }
 
-        /* Create 3 equal columns that floats next to each other */
-        .column {
-            float: left;
-            width: 33%;
-            padding: 0px;
-        }
-
-        /* Create 3 equal columns that floats next to each other */
-        .column2 {
-            float: left;
-            width: 50%;
-            padding: 0px;
-        }
-
-        /* Clear floats after the columns */
         .row:after {
             content: "";
             display: table;
@@ -39,31 +24,20 @@
 <body style="background-color: rgb(240, 235, 248)">
 <div id="map" class="map"></div>
 <script src="main.js"></script>
-<div style="margin-top: 10px">
-    <div class="column" style="align: center; text-align: center;">
-        <button id="describeGF" style="max-width: 150px;height: 100%" disabled>
-            <div><img src="assets/list-g-f.png" height="50px"/></div>
-            <div style="align: center; text-align: center;"><b>Formular<br/>mit Foto</br></b></div>
-        </button>
+
+<div style="margin-top: 10px; text-align: center;">
+    <button id="describeF" style="max-width: 150px; height: 100%; opacity: 0.8;" disabled>
+        <div><img src="assets/list.png" height="50px"/></div>
+        <div style="align: center; text-align: center;">Formular<br/>&nbsp;</div>
+    </button>
+
+    <div id="firstStep" style="align: center; text-align: center;">
+        <font face="Verdana">Bitte Position auswählen...</font>
     </div>
-    <div class="column" style="align: center; text-align: center;">
-        <button id="describeF" style="max-width: 150px;height: 100%;opacity: 0.8;" disabled>
-            <div><img src="assets/list.png" height="50px"/></div>
-            <div style="align: center; text-align: center;">Formular<br/>&nbsp;</div>
-        </button>
-    </div>
-    <div class="column" style="align: center; text-align: center;">
-        <button id="describeM" style="max-width: 150px;height: 100%;opacity: 0.8;" disabled>
-            <div><img src="assets/mail.png" height="50px"/></div>
-            <div style="align: center; text-align: center;">Mail<br/>&nbsp;</div>
-        </button>
-    </div>
-    <div id="firstStep" style="align: center; text-align: center;"><font face="Verdana">Bitte Position auswählen...</font></div>
 </div>
+
 <script>
     function isMobile() {
-        // credit to Timothy Huang for this regex test:
-        // https://dev.to/timhuang/a-simple-way-to-detect-if-browser-is-on-a-mobile-device-with-javascript-44j3
         if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
             return true
         }
@@ -71,12 +45,13 @@
             return false
         }
     }
+
     function toggleButton(buttonId, visible) {
         if (window.document.documentMode) {
             // on IE do nothing
         } else {
             if (visible) {
-                document.getElementById(buttonId).style.display = "inline";
+                document.getElementById(buttonId).style.display = "inline-block";
             } else {
                 document.getElementById(buttonId).style.display = "none";
             }
@@ -84,42 +59,26 @@
         document.getElementById(buttonId).disabled = false;
     }
 
-    document.getElementById('describeGF').onclick = function () {
-        if (pickerApi.picker.isSet()) {
-            let pos = pickerApi.picker.getLocation();
-            let newUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeNWHherhQKtl7A5lLDIdXL4BOV2UkmzJJehA6HVfgGal4u4w/viewform?usp=pp_url&entry.1646312533=' + pos;
-            window.open(newUrl);
-        }
-    };
     document.getElementById('describeF').onclick = function () {
         if (pickerApi.picker.isSet()) {
             let pos = pickerApi.picker.getLocation();
             window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSc_ALxhVTcA0TzSrniyH8R1hjzJ3cDAuh07kSdzN4XEHIJyQA/viewform?usp=pp_url&entry.1646312533=' + pos;
         }
     };
-    document.getElementById('describeM').onclick = function () {
-        if (pickerApi.picker.isSet()) {
-            let pos = pickerApi.picker.getLocation();
-            window.open('mailto:linz@radlobby.at?subject=Sackgassenschild melden bei... (bitte Straße bzw. Kreuzung angeben)&body=(Bitte Problem beschreiben) GPS-Position ' + pos);
-        }
-    };
+
     document.addEventListener('pickerSet', event => {
         console.log('picker set');
         document.getElementById('firstStep').style.visibility = "hidden";
-        toggleButton('describeGF', true);
         toggleButton('describeF', true);
-        toggleButton('describeM', true);
     });
+
     document.addEventListener('pickerUnset', event => {
         console.log('picker unset');
         document.getElementById('firstStep').style.visibility = "visible";
-        toggleButton('describeGF', false);
         toggleButton('describeF', false);
-        toggleButton('describeM', false);
     });
-    toggleButton('describeGF', false);
+
     toggleButton('describeF', false);
-    toggleButton('describeM', false);
 </script>
 </body>
 </html>
